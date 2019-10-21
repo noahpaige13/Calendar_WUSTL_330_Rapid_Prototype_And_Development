@@ -104,7 +104,7 @@ function updateCalendar(){
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementById('calendar_body');
     var tableh = document.getElementById('calendar_heading');
-    var len = tableh.rows.length();
+    var len = tableh.rows.length;
     for (i in len){
         table.deleteRow(i);
     }
