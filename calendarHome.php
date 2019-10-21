@@ -86,8 +86,8 @@ document.getElementById('next_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.nextMonth(); 
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
     alert("The new month is "+currentMonth.month+" "+currentMonth.year);
-    document.getElementById('monthAndYear')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
-    document.getElementById('calendar_heading')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('monthAndYear').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    // document.getElementById('calendar_heading').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
     // Previous Month Event Listener
@@ -95,7 +95,7 @@ document.getElementById('previous_month').addEventListener('click',function(even
 	currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
     alert("The new month is "+currentMonth.month+" "+currentMonth.year);
-    document.getElementById('monthAndYear')[0].innerHTML = (current.Month.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('monthAndYear').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
 
@@ -103,10 +103,9 @@ function updateCalendar(){
 
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementById('calendar_body');
-    var tableh = document.getElementById('calendar_heading');
-    var len = tableh.rows.length;
-    for (i in len){
-        table.deleteRow(i);
+    var Parent = document.getElementById('calendar_heading');
+    while (Parent.hasChildNodes()){
+        Parent.removeChild(Parent.firstChild);
     }
 
     // var week_count = 0
