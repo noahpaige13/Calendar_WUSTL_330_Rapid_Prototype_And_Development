@@ -32,14 +32,14 @@
 
 </div>
 <div id="calendar">
-    <div id = "add_event"></div>
+    <div id="add_event"><button style="margin: 0px 8px;width:20%" id="add_event_btn" >Add Event</button></div>
     <div id="add">
         Log In or Register to edit your calendar!
     </div>
     <div id="c">
         <h3 id="monthAndYear"></h3>
         <table id="calendar_heading">
-            <thead>
+            <thead >
             <tr>
                 <th>Sun</th>
                 <th>Mon</th>
@@ -75,7 +75,7 @@ var currentMonth = new Month(2019, 9);
 document.getElementById('next_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.nextMonth(); 
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
-    alert("The new month is "+currentMonth.month+" "+currentMonth.year);
+    // alert("The new month is "+currentMonth.month+" "+currentMonth.year);
 
 }, false);
 
@@ -83,7 +83,7 @@ document.getElementById('next_month').addEventListener('click',function(event){
 document.getElementById('previous_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
-    alert("The new month is "+currentMonth.month+" "+currentMonth.year);
+    // alert("The new month is "+currentMonth.month+" "+currentMonth.year);
     
 }, false);
 
@@ -113,7 +113,7 @@ function updateCalendar(){
             
             console.log(days[d].toISOString());
             var cell = row.insertCell(d);
-            var cell = document.createElement("td");
+            // var cell = document.createElement("td");
             var cellText = document.createTextNode(days[d].getDate());
             // cell.innerHTML = days[d].getDate();
             cell.appendChild(cellText);
@@ -123,8 +123,13 @@ function updateCalendar(){
         table.appendChild(row);
     }
     document.getElementById('calendar_heading').appendChild(table);
+    while (document.getElementById('monthAndYear').hasChildNodes()){
+        document.getElementById('monthAndYear').removeChild(document.getElementById('monthAndYear').firstChild);
+    }
     var name = document.createTextNode("Date: " + (currentMonth.month + 1) + ' / ' + (currentMonth.year));
-    document.getElementById('monthandYear').appendChild(name);
+    document.getElementById('monthAndYear').appendChild(name);
+
+
 }
 
 // Update Calendar as soon as Page Initially Loads

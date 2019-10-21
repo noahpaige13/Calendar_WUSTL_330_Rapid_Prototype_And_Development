@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+
+<head><title>Like Story</title></head>
+<body>
+	
 <?php
 // login_ajax.php
 require 'database.php';
@@ -20,11 +25,11 @@ $stmt->execute();
 
 // Bind the results
 $stmt->bind_result($cnt, $pwd_hash);
-$pwd_guess = $json_obj['password'];
 $stmt->fetch();
 
-// Compare the submitted password to the actual password hash
+$pwd_guess = $json_obj['password'];
 
+// Compare the submitted password to the actual password hash
 if($cnt == 1 && password_verify($pwd_guess, $pwd_hash)){
     session_start();
 	$_SESSION['username'] = $username;
@@ -43,3 +48,8 @@ if($cnt == 1 && password_verify($pwd_guess, $pwd_hash)){
 }
 	
 ?>
+<script>
+</script>
+
+</body>
+</html>

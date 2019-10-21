@@ -16,15 +16,17 @@ if(!$stmt){
 	exit;
 }
 
+
 // Bind the parameter
 $stmt->bind_param('ss', $username, $hashed);
 $username = $json_obj['username'];
 $pass = $json_obj['password'];
+
+// Compare the submitted password to the actual password hash
 $hashed = password_hash($pass, PASSWORD_BCRYPT);
 $hashed = substr( $hashed, 0, 60 );
 
-// Compare the submitted password to the actual password hash
-
+$stmt->execute();
 $stmt->close();
 
 session_start();
