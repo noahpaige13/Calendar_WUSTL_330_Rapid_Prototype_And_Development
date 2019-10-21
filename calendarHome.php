@@ -101,22 +101,22 @@ document.getElementById('previous_month').addEventListener('click',function(even
 function updateCalendar(){
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementbyId('calendar_body');
-    var week_count = 0
+    // var week_count = 0
 	for(var w in weeks){
 		var days = weeks[w].getDates();
 		// days contains normal JavaScript Date objects.
 		
 		alert("Week starting on "+days[0]);
-        var row = table.insertRow(0);
-        week_count = week_count + 1;
-        var day_count = 0;    
+        var row = table.insertRow(w);
+        // week_count = week_count + 1;
+        // var day_count = 0;    
 
 		for(var d in days){
 			// You can see console.log() output in your JavaScript debugging tool, like Firebug,
 			// WebWit Inspector, or Dragonfly.
             console.log(days[d].toISOString());
-            var cell = row.insertCell(day_count);
-            cell.innerHTML = days[d].getDay;
+            var cell = row.insertCell(d);
+            cell.innerHTML = days[d].getDate();
             
 		}
 	}
