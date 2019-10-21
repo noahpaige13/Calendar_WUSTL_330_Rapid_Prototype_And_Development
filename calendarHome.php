@@ -103,7 +103,11 @@ function updateCalendar(){
 
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementById('calendar_body');
-    table = '';
+    var len = table.rows.length();
+    for (i in len){
+        table.deleteRow(i);
+    }
+    
     // var week_count = 0
 	for(var w in weeks){
 		var days = weeks[w].getDates();
