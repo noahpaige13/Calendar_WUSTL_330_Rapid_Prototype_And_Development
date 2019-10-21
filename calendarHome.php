@@ -50,6 +50,17 @@
             </tr>
             </thead>
             <tbody id="calendar_body"></tbody>
+                <tr id = 'week1'>
+                </tr>
+                <tr id = 'week2'>
+                </tr>
+                <tr id = 'week3'>
+                </tr>
+                <tr id = 'week4'>
+                </tr>
+                <tr id = 'week5'>
+                </tr>
+
         </table>
         <div>
             <button style="margin: 0px 8px;width:40%" id="previous_month" >Previous</button>
@@ -71,33 +82,42 @@ function Month(c,b){this.year=c;this.month=b;this.nextMonth=function(){return ne
 var currentMonth = new Month(2019, 9);
 
     // Next Month Event Listener
-document.getElementbyID('next_month').addEventListener('click',function(event){
+document.getElementById('next_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.nextMonth(); 
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
-	alert("The new month is "+currentMonth.month+" "+currentMonth.year);
+    alert("The new month is "+currentMonth.month+" "+currentMonth.year);
+    document.getElementById('monthAndYear')[0].innerHTML = (current.Month.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
     // Previous Month Event Listener
-document.getElementbyID('previous_month').addEventListener('click',function(event){
+document.getElementById('previous_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
-	alert("The new month is "+currentMonth.month+" "+currentMonth.year);
+    alert("The new month is "+currentMonth.month+" "+currentMonth.year);
+    document.getElementById('monthAndYear')[0].innerHTML = (current.Month.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
 
 function updateCalendar(){
 	var weeks = currentMonth.getWeeks();
-	
+    var table = document.getElementbyId('calendar_body');
+    var week_count = 0
 	for(var w in weeks){
 		var days = weeks[w].getDates();
 		// days contains normal JavaScript Date objects.
 		
 		alert("Week starting on "+days[0]);
-		
+        var row = table.insertRow(0);
+        week_count = week_count + 1;
+        var day_count = 0;    
+
 		for(var d in days){
 			// You can see console.log() output in your JavaScript debugging tool, like Firebug,
 			// WebWit Inspector, or Dragonfly.
-			console.log(days[d].toISOString());
+            console.log(days[d].toISOString());
+            var cell = row.insertCell(day_count);
+            cell.innerHTML = days[d].getDay;
+            
 		}
 	}
 }
