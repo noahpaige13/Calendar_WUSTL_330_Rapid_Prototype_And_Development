@@ -86,7 +86,7 @@ document.getElementById('next_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.nextMonth(); 
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
     alert("The new month is "+currentMonth.month+" "+currentMonth.year);
-    document.getElementById('monthAndYear').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('monthAndYear')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
     // document.getElementById('calendar_heading').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
@@ -95,7 +95,7 @@ document.getElementById('previous_month').addEventListener('click',function(even
 	currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
     alert("The new month is "+currentMonth.month+" "+currentMonth.year);
-    document.getElementById('monthAndYear').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('monthAndYear')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
 
@@ -103,9 +103,8 @@ function updateCalendar(){
 
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementById('calendar_body');
-    var Parent = document.getElementById('calendar_heading');
-    while (Parent.hasChildNodes()){
-        Parent.removeChild(Parent.firstChild);
+    while (table.hasChildNodes()){
+        table.removeChild(table.firstChild);
     }
 
     // var week_count = 0
@@ -113,19 +112,26 @@ function updateCalendar(){
 		var days = weeks[w].getDates();
 		// days contains normal JavaScript Date objects.
 		
-		alert("Week starting on "+days[0]);
-        var row = table.insertRow(w);
+		// alert("Week starting on "+days[0]);
+        // var row = table.insertRow(w);
+        var row = document.createElement("tr");
         // week_count = week_count + 1;
         // var day_count = 0;    
 
 		for(var d in days){
 			// You can see console.log() output in your JavaScript debugging tool, like Firebug,
-			// WebWit Inspector, or Dragonfly.
+            // WebWit Inspector, or Dragonfly.
+            
             console.log(days[d].toISOString());
             var cell = row.insertCell(d);
-            cell.innerHTML = days[d].getDate();
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode(days[d].getDate());
+            // cell.innerHTML = days[d].getDate();
+            cell.appendChild(cellText);
+            row.appendChild(cell);
             
-		}
+        }
+        table.appendChild(row);
 	}
 }
 
