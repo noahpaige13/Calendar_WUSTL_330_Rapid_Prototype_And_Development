@@ -86,8 +86,8 @@ document.getElementById('next_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.nextMonth(); 
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
     alert("The new month is "+currentMonth.month+" "+currentMonth.year);
-    document.getElementById('monthAndYear')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
-    // document.getElementById('calendar_heading').innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    // document.getElementById('monthAndYear')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('calendar_heading')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
     // Previous Month Event Listener
@@ -132,7 +132,8 @@ function updateCalendar(){
             
         }
         table.appendChild(row);
-	}
+    }
+    document.getElementById('calendar_heading').appendChild(table)
 }
 
 // Update Calendar as soon as Page Initially Loads
