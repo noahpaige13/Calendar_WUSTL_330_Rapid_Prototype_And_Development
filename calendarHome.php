@@ -32,6 +32,7 @@
 
 </div>
 <div id="calendar">
+    <div id = "add_event"></div>
     <div id="add">
         Log In or Register to edit your calendar!
     </div>
@@ -50,17 +51,6 @@
             </tr>
             </thead>
             <tbody id="calendar_body"></tbody>
-                <!-- <tr id = 'week1'>
-                </tr>
-                <tr id = 'week2'>
-                </tr>
-                <tr id = 'week3'>
-                </tr>
-                <tr id = 'week4'>
-                </tr>
-                <tr id = 'week5'>
-                </tr> -->
-
         </table>
         <div>
             <button style="margin: 0px 8px;width:40%" id="previous_month" >Previous</button>
