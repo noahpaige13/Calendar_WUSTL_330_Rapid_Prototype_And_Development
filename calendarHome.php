@@ -50,7 +50,7 @@
             </tr>
             </thead>
             <tbody id="calendar_body"></tbody>
-                <tr id = 'week1'>
+                <!-- <tr id = 'week1'>
                 </tr>
                 <tr id = 'week2'>
                 </tr>
@@ -59,7 +59,7 @@
                 <tr id = 'week4'>
                 </tr>
                 <tr id = 'week5'>
-                </tr>
+                </tr> -->
 
         </table>
         <div>
@@ -86,7 +86,8 @@ document.getElementById('next_month').addEventListener('click',function(event){
 	currentMonth = currentMonth.nextMonth(); 
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
     alert("The new month is "+currentMonth.month+" "+currentMonth.year);
-    document.getElementById('monthAndYear')[0].innerHTML = (current.Month.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('monthAndYear')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
+    document.getElementById('calendar_heading')[0].innerHTML = (currentMonth.month + 1) + ' / ' + currentMonth.year;
 }, false);
 
     // Previous Month Event Listener
@@ -99,8 +100,10 @@ document.getElementById('previous_month').addEventListener('click',function(even
 
 
 function updateCalendar(){
+
 	var weeks = currentMonth.getWeeks();
-    var table = document.getElementbyId('calendar_body');
+    var table = document.getElementById('calendar_body');
+    table = '';
     // var week_count = 0
 	for(var w in weeks){
 		var days = weeks[w].getDates();
@@ -121,6 +124,9 @@ function updateCalendar(){
 		}
 	}
 }
+
+// Update Calendar as soon as Page Initially Loads
+document.addEventListener("DOMContentLoaded", updateCalendar, false);
 </script>
 </body>
 </html>
