@@ -48,8 +48,6 @@ if($cnt == 1 && password_verify($pwd_guess, $pwd_hash)){
 }
 	
 ?>
-<script>
-</script>
 
 </body>
 </html>

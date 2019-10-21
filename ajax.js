@@ -14,7 +14,8 @@ function loginAjax(event) {
             headers: { 'content-type': 'application/json' }
         })
         .then(res => res.text())
-        .then(text => console.log(text))
+        // .then(text => console.log(text))
+        .then(res => getEvents())
         .catch(error => console.error('Error:', error))
 }
 
@@ -48,7 +49,7 @@ function addEventAjax(event) {
             headers: { 'content-type': 'application/json' }
         })
         .then(res => res.text())
-        .then(text => console.log(text))
+        // .then(text => console.log(text))
         .catch(error => console.error('Error:', error))
 }
 
@@ -56,3 +57,20 @@ function addEventAjax(event) {
 document.getElementById("login_btn").addEventListener("click", loginAjax, false); // Bind the AJAX call to button click
 document.getElementById("newuser_btn").addEventListener("click", newUserAjax, false); // Bind the AJAX call to button click
 document.getElementById("addevent_btn").addEventListener("click", addEventAjax, false); // Bind the AJAX call to button click
+
+function getEvents(){
+    fetch("getEvents_ajax.php")
+    .then(res => res.text())
+    .then(function(r) {
+        console.log(Array.from(r));
+        // r => JSON.stringify(r);
+
+        // var data = JSON.parse(r);
+        // console.log('Success:', r);
+        // var data = JSON.parse(text);
+        
+        document.getElementById("add").innerHTML = r;
+})
+    .catch(error => console.error('Error:', error))
+
+}
