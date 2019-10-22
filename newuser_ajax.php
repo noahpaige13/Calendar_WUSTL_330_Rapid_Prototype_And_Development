@@ -19,8 +19,8 @@ if(!$stmt){
 
 // Bind the parameter
 $stmt->bind_param('ss', $username, $hashed);
-$username = $json_obj['username'];
-$pass = $json_obj['password'];
+$username = htmlentities($json_obj['username']);
+$pass = htmlentities($json_obj['password']);
 
 // Compare the submitted password to the actual password hash
 $hashed = password_hash($pass, PASSWORD_BCRYPT);

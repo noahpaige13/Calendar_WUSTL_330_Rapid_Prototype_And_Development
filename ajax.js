@@ -1,6 +1,6 @@
 // code based off of cse330 wiki page
 // ajax.js
-
+let token = '';
 function loginAjax(event) {
     const username = document.getElementById("username").value; // Get the username from the form
     const password = document.getElementById("password").value; // Get the password from the form
@@ -13,17 +13,24 @@ function loginAjax(event) {
             body: JSON.stringify(data),
             headers: { 'content-type': 'application/json' }
         })
-        .then(res => res.text())
-        // .then(text => console.log(text))
-        .then(res => getEvents())
-        .then(res => login(username))
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            token = res.token
+            if (res.success){
+                getEvents()
+                login(username)
+            }
+            else{
+                alert("User doesn't exist");
+            }
+        })
         .catch(error => console.error('Error:', error))
 }
 
 function newUserAjax(event) {
     var user = document.getElementById("new_username").value; // Get the username from the form
     var pass = document.getElementById("new_password").value; // Get the password from the form
-    console.log(user + pass);
     // Make a URL-encoded string for passing POST data:
     const data = {'username': user,'password': pass};
 
@@ -32,7 +39,11 @@ function newUserAjax(event) {
             body: JSON.stringify(data),
             headers: { 'content-type': 'application/json' }
         })
-        .then(res => res.text())
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            token = res.token
+        })
         .then(res => login(user))
         .catch(error => console.error('Error:', error))
 }
@@ -41,10 +52,10 @@ function addEventAjax(event) {
     var name = document.getElementById("event_name").value; // Get the username from the form
     var date = document.getElementById("event_date").value; // Get the password from the form
     var time = document.getElementById("event_time").value; // Get the password from the form
-
+    
     // Make a URL-encoded string for passing POST data:
-    const data = {'name': name,'date': date, 'time':time};
-
+    const data = {'name': name,'date': date, 'time':time+':00'};
+    console.log(data)
     fetch("addevent_ajax.php", {
             method: 'POST',
             body: JSON.stringify(data),
@@ -89,7 +100,6 @@ var modal1 = document.getElementById("editModal");
 var span1 = document.getElementsByClassName("close1")[0];
 
 function openModal1(event) {
-    console.log("hi");
     modal1.style.display = "block";
 }
 
@@ -134,12 +144,30 @@ window.onclick = function(event) {
 
 //separate functions
 function getEvents(){
-
+    console.log("getEvents ran")
     fetch("getEvents_ajax.php")
     .then(response => response.text())
     .then((text) => {
         var json_data = JSON.parse(text);
-        console.log(json_data);
+
+        var weeks = currentMonth.getWeeks();
+        var table = document.getElementById('calendar_body');
+        for(var w in weeks){
+		    var days = weeks[w].getDates();
+        
+		    for(var d in days){
+                // console.log("table", table.weeks)
+                // console.log("w", w, "d", d)
+                var child = table.rows[w].cells[d];
+                // console.log(child);
+                console.log(child.childNodes.length > 1)
+                while (child.childNodes.length > 1){
+                    
+                    console.log(table.rows[w].cells[d].removeChild(child.childNodes[1]));
+
+                }
+            }
+        }
 
         for (var i = 0 ; i < json_data.length; i++){
             let name = json_data[i].name;
@@ -158,6 +186,7 @@ function showEvents(name, date, time, id){
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementById('calendar_body');
 
+
     for(var w in weeks){
 		var days = weeks[w].getDates();
         
@@ -175,15 +204,21 @@ function showEvents(name, date, time, id){
 
             var cellday = y+"-"+m+"-"+dy;
             if (date == cellday) {
+                // var l = document.table.rows[w].cells[d].childNodes.length;
+                // for (var i in l) {
+                //     if ( name + ' Time: '+ time == )
+                // }
+
+
                 var button = document.createElement('input');
                 button.setAttribute('type','button');
                 var txt = 'event_editbtn' + id;
-                console.log(txt);
-
-                button.setAttribute('id', 'txt');
+                button.setAttribute('id', txt);
                 button.setAttribute('value', name + ' Time: '+ time);
+                button.style.borderColor = "#233567";
+                // table.rows[w].cells[d].removeChild(table.rows[w].cells[d].childNodes[1]);
                 table.rows[w].cells[d].appendChild(button);
-                document.getElementById('txt').addEventListener('click', openModal1, false);
+                document.getElementById(txt).addEventListener('click', openModal1, false);
             }
         }
     }

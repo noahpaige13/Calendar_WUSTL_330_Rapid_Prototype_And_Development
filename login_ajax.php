@@ -16,14 +16,14 @@ $stmt = $mysqli->prepare("SELECT COUNT(*), hashed_password FROM users WHERE user
 
 // Bind the parameter
 $stmt->bind_param('s', $username);
-$username = $json_obj['username'];
+$username = htmlentities($json_obj['username']);
 $stmt->execute();
 
 // Bind the results
 $stmt->bind_result($cnt, $pwd_hash);
 $stmt->fetch();
 
-$pwd_guess = $json_obj['password'];
+$pwd_guess = htmlentities($json_obj['password']);
 
 // Compare the submitted password to the actual password hash
 if($cnt == 1 && password_verify($pwd_guess, $pwd_hash)){
@@ -32,7 +32,8 @@ if($cnt == 1 && password_verify($pwd_guess, $pwd_hash)){
 	$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); 
 
 	echo json_encode(array(
-		"success" => true
+		"success" => true,
+		"token" => $_SESSION['token']
 	));
 	exit;
 }else{

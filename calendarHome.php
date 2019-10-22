@@ -36,7 +36,7 @@
 <div id="calendar">
     <!-- Trigger/Open The Modal -->
     <div style="display:none" id="add_event"><button style="margin: 0px 8px; width:13%; float: right" id="addevent_btn" >Add Event</button></div>
-
+    <br>
     <!-- The Modal -->
     <div id="myModal" style="display:none" class="modal">
 
@@ -87,20 +87,19 @@
             </div>
         </div>
     </div>
-    <br><br>
 
     <div id="c">
         <h2 id="monthAndYear"></h2>
         <table align="center" width="900" height="500" id="calendar_heading">
             <thead >
             <tr>
-                <th width="14.2857%">Sun</th>
-                <th width="14.2857%">Mon</th>
-                <th width="14.2857%">Tue</th>
-                <th width="14.2857%">Wed</th>
-                <th width="14.2857%">Thu</th>
-                <th width="14.2857%">Fri</th>
-                <th width="14.2857%">Sat</th>
+                <th style="font-size: 12pt; color: #233567; background-color: #ffdfdf;" width="14.2857%">Sun</th>
+                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%;">Mon</th>
+                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Tue</th>
+                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Wed</th>
+                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Thu</th>
+                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Fri</th>
+                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Sat</th>
             </tr>
             </thead>
             <tbody id="calendar_body"></tbody>
@@ -117,45 +116,63 @@
 </div>
 
 <script>
+let timer = true;
 // "Calendar Math" Functions
 (function(){Date.prototype.deltaDays=function(c){return new Date(this.getFullYear(),this.getMonth(),this.getDate()+c)};Date.prototype.getSunday=function(){return this.deltaDays(-1*this.getDay())}})();
 function Week(c){this.sunday=c.getSunday();this.nextWeek=function(){return new Week(this.sunday.deltaDays(7))};this.prevWeek=function(){return new Week(this.sunday.deltaDays(-7))};this.contains=function(b){return this.sunday.valueOf()===b.getSunday().valueOf()};this.getDates=function(){for(var b=[],a=0;7>a;a++)b.push(this.sunday.deltaDays(a));return b}}
 function Month(c,b){this.year=c;this.month=b;this.nextMonth=function(){return new Month(c+Math.floor((b+1)/12),(b+1)%12)};this.prevMonth=function(){return new Month(c+Math.floor((b-1)/12),(b+11)%12)};this.getDateObject=function(a){return new Date(this.year,this.month,a)};this.getWeeks=function(){var a=this.getDateObject(1),b=this.nextMonth().getDateObject(0),c=[],a=new Week(a);for(c.push(a);!a.contains(b);)a=a.nextWeek(),c.push(a);return c}};
 
 // Start at a Month
-var currentMonth = new Month(2019, 9);
+let currentMonth = new Month(2019, 9);
 
 // Next Month Event Listener
 document.getElementById('next_month').addEventListener('click',function(event){
-	currentMonth = currentMonth.nextMonth(); 
-	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
+    if (timer) {
+        currentMonth = currentMonth.nextMonth(); // Previous month would be currentMonth.prevMonth()
+        updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML    
+        getEvents();
+        timer = false;
+        setTimeout(() => {
+            timer = true;
+        }, 1000);
+    }
 }, false);
 
 // Previous Month Event Listener
 document.getElementById('previous_month').addEventListener('click',function(event){
-	currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
-	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML    
+    if (timer) {
+        currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
+        updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML    
+        getEvents();
+        timer = false;
+        setTimeout(() => {
+            timer = true;
+        }, 1000);
+    }
+
 }, false);
 
 function updateCalendar(){
-	var weeks = currentMonth.getWeeks();
-    var table = document.getElementById('calendar_body');
+	let weeks = currentMonth.getWeeks();
+    let table = document.getElementById('calendar_body');
     while (table.hasChildNodes()){
         table.removeChild(table.firstChild);
     }
 
-    for(var w in weeks){
-		var days = weeks[w].getDates();
+    for(let w in weeks){
+		let days = weeks[w].getDates();
         // days contains normal JavaScript Date objects.
         
-        var row = document.createElement("tr"); 
+        let row = document.createElement("tr"); 
 
-		for(var d in days){
+		for(let d in days){
 			// You can see console.log() output in your JavaScript debugging tool, like Firebug,
             // WebWit Inspector, or Dragonfly.
-            var cell = row.insertCell(d);
-            var cellText = document.createTextNode(days[d].getDate());
-            cell.appendChild(cellText);
+            let cell = row.insertCell(d);
+            let cellText = document.createTextNode(days[d].getDate());
+            let h = document.createElement("H4")
+            h.appendChild(cellText);                                   // Append the text to <h1>
+            cell.appendChild(h);
             row.appendChild(cell);
         }
         table.appendChild(row);
@@ -165,7 +182,7 @@ function updateCalendar(){
         document.getElementById('monthAndYear').removeChild(document.getElementById('monthAndYear').firstChild);
     }
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var name = document.createTextNode(monthNames[currentMonth.month] + ' ' + (currentMonth.year));
+    let name = document.createTextNode(monthNames[currentMonth.month] + ' ' + (currentMonth.year));
     document.getElementById('monthAndYear').appendChild(name);
 }
 

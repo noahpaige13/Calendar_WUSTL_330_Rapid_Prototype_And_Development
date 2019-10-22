@@ -11,9 +11,9 @@ $json_obj = json_decode($json_str, true);
 session_start();
 
 //test CSRF token validity
-if(!hash_equals($_SESSION['token'], $_POST['token'])){
-	die("Request forgery detected");
-}
+// if(!hash_equals($_SESSION['token'], $_POST['token'])){
+// 	die("Request forgery detected");
+// }
 
 // Use a prepared statement
 $stmt = $mysqli->prepare("INSERT into events (user, name, date, time) VALUES (?, ?, ?, ?)");
@@ -24,9 +24,10 @@ if(!$stmt){
 // Bind the parameter
 $stmt->bind_param('ssss', $username, $n, $d, $t);
 $username = $_SESSION['username'];
-$n = $json_obj['name'];
-$d = date("Y-m-d",strtotime($json_obj['date']));
-$t = date("H:m:s",strtotime($json_obj['time']));
+
+$n = htmlentities($json_obj['name']);
+$d = htmlentities($json_obj['date']);
+$t = htmlentities($json_obj['time']);
 
 $stmt->execute();
 

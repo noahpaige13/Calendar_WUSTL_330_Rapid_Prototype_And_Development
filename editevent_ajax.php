@@ -11,9 +11,9 @@ $json_obj = json_decode($json_str, true);
 session_start();
 
 //test CSRF token validity
-if(!hash_equals($_SESSION['token'], $_POST['token'])){
-	die("Request forgery detected");
-}
+// if(!hash_equals($_SESSION['token'], $_POST['token'])){
+// 	die("Request forgery detected");
+// }
 
 $stmt = $mysqli->prepare("UPDATE events set name=?, date=?, time=? where story_id=?");
 if(!$stmt){
@@ -25,9 +25,9 @@ if(!$stmt){
 $stmt->bind_param('sssi', $name, $date, $time, $story_id);
 
 // $story_id = $_SESSION['story_id'];
-$n = $json_obj['name'];
-$d = $json_obj['date'];
-$t = $json_obj['time'];
+$n = htmlentities($json_obj['name']);
+$d = htmlentities($json_obj['date']);
+$t = htmlentities($json_obj['time']);
 
 $stmt->execute();
 
