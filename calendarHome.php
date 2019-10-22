@@ -5,9 +5,15 @@
 </head>
 <body>
     <h1>Welcome!</h1>
-
-<br><br>
+<br>
 <div id="options">
+    <div style="display:none;" id="logout">
+
+    <!-- Log Out button -->
+    <h3>Logged in as: <div id="user"></div></h3>
+    <button style="margin: 0px 8px;width:90%" id="logout_btn">Log Out</button>
+
+    </div>
     <div id="login">
 
         <!-- Log In button -->
@@ -26,17 +32,10 @@
         <button style="margin: 0px 8px;width:90%" id="newuser_btn">Create Account</button>
 
     </div>
-    <div style="display:none;" id="logout">
-
-        <!-- Log Out button -->
-        <h3>Log Out? </h3>
-        <button style="margin: 0px 8px;width:90%" id="logout_btn">Log Out</button>
-
-    </div>
 </div>
 <div id="calendar">
     <!-- Trigger/Open The Modal -->
-    <div id="add_event"><button style="margin: 0px 8px; width:13%; float: right" id="addevent_btn" >Add Event</button></div>
+    <div style="display:none" id="add_event"><button style="margin: 0px 8px; width:13%; float: right" id="addevent_btn" >Add Event</button></div>
 
     <!-- The Modal -->
     <div id="myModal" style="display:none" class="modal">
@@ -82,12 +81,10 @@
         </div>
     </div>
     <br><br>
-    <!-- <div id="add">
-        Log In or Register to edit your calendar!
-    </div> -->
+
     <div id="c">
-        <h3 id="monthAndYear"></h3>
-        <table align="center" width="700" id="calendar_heading">
+        <h2 id="monthAndYear"></h2>
+        <table align="center" width="900" height="500" id="calendar_heading">
             <thead >
             <tr>
                 <th width="14.2857%">Sun</th>

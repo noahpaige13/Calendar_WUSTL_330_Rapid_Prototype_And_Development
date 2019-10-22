@@ -27,7 +27,6 @@ $username = $_SESSION['username'];
 $n = htmlspecialchars($_POST['name']);
 $d = htmlentities($_POST['date']);
 $t = htmlentities($_POST['time']);
-echo $username;
 
 $stmt->execute();
 

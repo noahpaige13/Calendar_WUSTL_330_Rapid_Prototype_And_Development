@@ -16,7 +16,7 @@ function loginAjax(event) {
         .then(res => res.text())
         // .then(text => console.log(text))
         .then(res => getEvents())
-        .then(res => login())
+        .then(res => login(username))
         .catch(error => console.error('Error:', error))
 }
 
@@ -33,7 +33,7 @@ function newUserAjax(event) {
             headers: { 'content-type': 'application/json' }
         })
         .then(res => res.text())
-        .then(text => console.log(text))
+        .then(res => login(user))
         .catch(error => console.error('Error:', error))
 }
 
@@ -165,16 +165,19 @@ function showEvents(name, date, time, id){
 }
 
 
-function login(){
+function login(user){
     document.getElementById("logout").style.display = "block";
     document.getElementById("login").style.display = "none";
     document.getElementById("newuser").style.display = "none";
+    document.getElementById("add_event").style.display = "block";
+    document.getElementById("user").innerHTML = user;
 }
 
 function logout(){
     document.getElementById("logout").style.display = "none";
     document.getElementById("login").style.display = "block";
     document.getElementById("newuser").style.display = "block";
+    document.getElementById("add_event").style.display = "none";
     document.getElementById("username").value = '';
     document.getElementById("password").value = '';
 
