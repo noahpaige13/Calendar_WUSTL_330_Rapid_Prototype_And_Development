@@ -38,7 +38,6 @@ function newUserAjax(event) {
 }
 
 function addEventAjax(event) {
-    // document.getElementById('popup').style.display = "block";
     var name = document.getElementById("event_name").value; // Get the username from the form
     var date = document.getElementById("event_date").value; // Get the password from the form
     var time = document.getElementById("event_time").value; // Get the password from the form
@@ -51,6 +50,32 @@ function addEventAjax(event) {
             body: JSON.stringify(data),
             headers: { 'content-type': 'application/json' }
         })
+        .then(res => getEvents())
+        .then(modal.style.display = "none")
+        .catch(error => console.error('Error:', error))
+}
+
+function editEventAjax(event) {
+    var name = document.getElementById("change_name").value; // Get the username from the form
+    var date = document.getElementById("change_date").value; // Get the password from the form
+    var time = document.getElementById("change_time").value; // Get the password from the form
+
+    // Make a URL-encoded string for passing POST data:
+    const data = {'name': name,'date': date, 'time':time};
+
+    fetch("editevent_ajax.php", {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'content-type': 'application/json' }
+        })
+        .then(res => getEvents())
+        .then(modal.style.display = "none")
+        .catch(error => console.error('Error:', error))
+}
+
+function delEventAjax(event) {
+    // Make a URL-encoded string for passing POST data:
+    fetch("delevent_ajax.php")
         .then(res => getEvents())
         .then(modal.style.display = "none")
         .catch(error => console.error('Error:', error))
@@ -199,5 +224,8 @@ document.getElementById("addevent_btn").addEventListener("click", openModal, fal
 document.getElementById("cancel_btn").addEventListener("click", closeModal, false);
 document.getElementById("cancel_btn1").addEventListener("click", closeModal1, false);
 document.getElementById("create_event").addEventListener("click", addEventAjax, false);
+document.getElementById("edit_event").addEventListener("click", editEventAjax, false); // Bind the AJAX call to button click
+document.getElementById("del_event").addEventListener("click", delEventAjax, false); // Bind the AJAX call to button click
+
 
 

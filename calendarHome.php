@@ -44,14 +44,14 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <div class="container">
-                <label for="event_name"><b>Event Name</b></label>
+                <label for="event_name"><b>Event Name: </b></label>
                 <input style="width: 90%;" id = "event_name" type="text" placeholder="Enter Event Name" name="event_name" required>
                 <br><br>
-                <label for="psw"><b>Event Date</b></label>
-                <input type="date" id = "event_date" placeholder=" " name="event_date" required>
+                <label for="psw"><b>Event Date: </b></label>
+                <input type="date" id = "event_date" name="event_date" required>
                 
-                <label for="psw"><b>Event Time</b></label>
-                <input type="time" id = "event_time" placeholder="Enter Password" name="event_time" required>
+                <label for="psw"><b>Event Time: </b></label>
+                <input type="time" id = "event_time" name="event_time" required>
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
@@ -64,20 +64,27 @@
     <!-- Edit Modal -->
     <div id="editModal" style="display:none" class="modal1">
         <!-- Modal content -->
-        <div class="modal-content">
-            <div class="container">
-                <label for="event_name"><b>Change Event Name</b></label>
-                <input type="text" placeholder="Change Event Name" name="change_name" required>
-
-                <label for="psw"><b>Change Event Time</b></label>
-                <input type="time" placeholder="Enter Password" name="change_time" required>
-            </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-            <button id="cancel_btn1" >Cancel</button>
-            <button style="float:right" id="edit_event">Edit</button>
-            <button id = 'del_event'> Delete Event </button>
-            </div>
+        <div class="modal-content">
+            <h3 style= "text-align: center">Event Options</h3>
+            <div class="container">
+                <label for="event_name"><b>Change Event Name: </b></label>
+                <input style="width: 90%;"id = "change_name" type="text" placeholder="Change Event Name" name="change_name">
+                <br><br>
+                <label for="psw"><b>Change Event Date: </b></label>
+                <input id = "change_date" type="date" name="change_date">
+                <label for="psw"><b>Change Event Time: </b></label>
+                <input id = "change_time" type="time" name="change_time">
+            </div>
+            <div class="container">
+                <button id="cancel_btn1" >Cancel</button>
+                <button style="float:right" id="edit_event">Edit Event</button>
+                <button style="float:right" id = 'del_event'> Delete Event </button>
+            </div><div class="container" style="background-color:#f1f1f1"><br><br></div>
+            <div class="container">
+                <label for="event_name"><b>Share Event With:</b></label>
+                <input style="width:80%" id = "share_user" type="text" placeholder="Username" name="share_user">
+                <button id="share_btn" >Share</button>
+            </div>
         </div>
     </div>
     <br><br>

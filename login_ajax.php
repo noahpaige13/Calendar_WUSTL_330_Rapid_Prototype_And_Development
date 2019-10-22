@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-
-<head><title>Like Story</title></head>
-<body>
 	
 <?php
 // login_ajax.php

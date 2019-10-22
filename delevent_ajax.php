@@ -15,24 +15,19 @@ if(!hash_equals($_SESSION['token'], $_POST['token'])){
 	die("Request forgery detected");
 }
 
-// Use a prepared statement
-$stmt = $mysqli->prepare("INSERT into events (user, name, date, time) VALUES (?, ?, ?, ?)");
+$stmt = $mysqli->prepare("DELETE from events where story_id=?");
 if(!$stmt){
 	printf("Query Prep Failed: %s\n", $mysqli->error);
 	exit;
 }
+
 // Bind the parameter
-$stmt->bind_param('ssss', $username, $n, $d, $t);
-$username = $_SESSION['username'];
-$n = $json_obj['name'];
-$d = date("Y-m-d",strtotime($json_obj['date']));
-$t = date("H:m:s",strtotime($json_obj['time']));
+$stmt->bind_param('i', $story_id);
+
+// $story_id = $_SESSION['story_id'];
 
 $stmt->execute();
 
 $stmt->close();
-echo json_encode(array(
-    "success" => true
-));
-exit;
+
 ?>
