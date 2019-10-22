@@ -17,13 +17,17 @@ if(!hash_equals($_SESSION['token'], $_POST['token'])){
 
 // Use a prepared statement
 $stmt = $mysqli->prepare("INSERT into events (user, name, date, time) VALUES (?, ?, ?, ?)");
-
+if(!$stmt){
+	printf("Query Prep Failed: %s\n", $mysqli->error);
+	exit;
+}
 // Bind the parameter
 $stmt->bind_param('ssss', $username, $n, $d, $t);
 $username = $_SESSION['username'];
 $n = htmlspecialchars($_POST['name']);
 $d = htmlentities($_POST['date']);
 $t = htmlentities($_POST['time']);
+echo $username;
 
 $stmt->execute();
 

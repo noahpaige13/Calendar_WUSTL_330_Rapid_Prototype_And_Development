@@ -59,12 +59,19 @@ h1{
     text-align: center;
 }
 h3, h2{
-	color: #233567;
+    color: #233567;
 }
 div#s{
     padding: 10px;
 }
-input[type=text], [type=password], [type=date], [type=time] {
+input[type=text], [type=password] {
+    border-width: thin;
+    border: solid;
+    border-color: #fbc1bc;
+    border-radius: 12px;
+    padding: 10px 10px;
+}
+input[type=date], [type=time] {
     border-width: thin;
     border: solid;
     border-color: #fbc1bc;
@@ -96,16 +103,13 @@ th, td {
 div#c{
     text-align: center;
 }
-div#popup{
-    display: none;
-}
 
 
 /* MODAL */
 /* The Modal (background) */
 body {font-family: Arial, Helvetica, sans-serif;}
 
-/* Full-width input fields */
+/* Full-width input fields
 input[type=text], input[type=password] {
   width: 100%;
   padding: 12px 20px;
@@ -113,7 +117,7 @@ input[type=text], input[type=password] {
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
-}
+} */
 
 
 button:hover {
@@ -142,7 +146,7 @@ span.psw {
 }
 
 /* The Modal (background) */
-.modal {
+.modal, .modal1 {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */

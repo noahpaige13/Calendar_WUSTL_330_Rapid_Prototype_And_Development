@@ -16,9 +16,7 @@
         Password: <br><input style ="margin: 8px 0;width:90%" type="password" id="password" placeholder="Password" />
         <button style="margin: 0px 8px;width:90%" id="login_btn">Log In</button>
 
-    </div>
-    <br>
-    <br>
+    </div><br><br>
     <div id="newuser">
 
         <!-- Change Username button -->
@@ -28,11 +26,17 @@
         <button style="margin: 0px 8px;width:90%" id="newuser_btn">Create Account</button>
 
     </div>
+    <div style="display:none;" id="logout">
 
+        <!-- Log Out button -->
+        <h3>Log Out? </h3>
+        <button style="margin: 0px 8px;width:90%" id="logout_btn">Log Out</button>
+
+    </div>
 </div>
 <div id="calendar">
     <!-- Trigger/Open The Modal -->
-    <div id="add_event"><button style="margin: 0px 8px;width:20%; float: right" id="addevent_btn" >Add Event</button></div>
+    <div id="add_event"><button style="margin: 0px 8px; width:13%; float: right" id="addevent_btn" >Add Event</button></div>
 
     <!-- The Modal -->
     <div id="myModal" style="display:none" class="modal">
@@ -42,13 +46,13 @@
             <span class="close">&times;</span>
             <div class="container">
                 <label for="event_name"><b>Event Name</b></label>
-                <input type="text" placeholder="Enter Event Name" name="event_name" required>
-
+                <input style="width: 90%;" id = "event_name" type="text" placeholder="Enter Event Name" name="event_name" required>
+                <br><br>
                 <label for="psw"><b>Event Date</b></label>
-                <input type="date" placeholder=" " name="event_date" required>
+                <input type="date" id = "event_date" placeholder=" " name="event_date" required>
                 
                 <label for="psw"><b>Event Time</b></label>
-                <input type="time" placeholder="Enter Password" name="event_time" required>
+                <input type="time" id = "event_time" placeholder="Enter Password" name="event_time" required>
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
@@ -56,9 +60,28 @@
             <button style="float:right" id="create_event">Add</button>
             </div>
         </div>
-
     </div>
-    <!-- <div style="display:none" id="popup">hi</div> -->
+
+    <!-- Edit Modal -->
+    <div id="editModal" style="display:none" class="modal1">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="container">
+                <label for="event_name"><b>Change Event Name</b></label>
+                <input type="text" placeholder="Change Event Name" name="change_name" required>
+
+                <label for="psw"><b>Change Event Time</b></label>
+                <input type="time" placeholder="Enter Password" name="change_time" required>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+            <button id="cancel_btn1" >Cancel</button>
+            <button style="float:right" id="edit_event">Edit</button>
+            <button id = 'del_event'> Delete Event </button>
+            </div>
+        </div>
+    </div>
+    <br><br>
     <!-- <div id="add">
         Log In or Register to edit your calendar!
     </div> -->
@@ -80,7 +103,7 @@
         </table>
     </div>
     <br>
-    <div style="margin-left: 10px;">
+    <div style="text-align: center;">
         <button style="margin: 0px 8px;width:40%" id="previous_month" >Previous</button>
         <button style="margin: 0px 8px;width:40%" id="next_month" >Next</button>
     </div>
@@ -144,6 +167,8 @@ function updateCalendar(){
 
 // Update Calendar as soon as Page Initially Loads
 document.addEventListener("DOMContentLoaded", updateCalendar, false);
+
 </script>
+
 </body>
 </html>
