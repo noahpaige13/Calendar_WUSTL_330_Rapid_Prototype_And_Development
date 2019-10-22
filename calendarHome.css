@@ -96,3 +96,6 @@ th, td {
 div#c{
     text-align: center;
 }
+div#popup{
+    display: none;
+}

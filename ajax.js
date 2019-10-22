@@ -37,6 +37,7 @@ function newUserAjax(event) {
 }
 
 function addEventAjax(event) {
+    document.getElementById('popup').style.display = "block";
     var user = document.getElementById("new_username").value; // Get the username from the form
     var pass = document.getElementById("new_password").value; // Get the password from the form
     console.log(user + pass);
@@ -60,21 +61,47 @@ document.getElementById("addevent_btn").addEventListener("click", addEventAjax, 
 
 function getEvents(){
     fetch("getEvents_ajax.php")
-    // .then(response => response.text())
-    .then(function(r) {
-        var user_events = [];
-        for (var i in r){
-            user_events.push(i,r[i]);
-        }
-        document.getElementById("add").innerHTML = user_events;
-        // console.log(Array.from(r));
-        // r => JSON.stringify(r);
+    .then(response => response.text())
+    .then((text) => {
+        var json_data = JSON.parse(text);
+        console.log(json_data);
 
-        // var data = JSON.parse(r);
-        // console.log('Success:', r);
-        // var data = JSON.parse(text);
-        
-})
+        for (var i = 0 ; i < json_data.length; i++){
+            let name = json_data[i].name;
+            let date = json_data[i].date;
+            let time = json_data[i].time;
+            showEvents(name, date, time);
+        }
+
+    })
     .catch(error => console.error('Error:', error))
+
+}
+
+function showEvents(name, date, time){
+	var weeks = currentMonth.getWeeks();
+    var table = document.getElementById('calendar_body');
+
+    for(var w in weeks){
+		var days = weeks[w].getDates();
+        
+		for(var d in days){
+
+            var y = days[d].getFullYear();
+            var m = days[d].getMonth() + 1;
+            var dy = days[d].getDate();
+            if (dy <10) {
+                dy = '0'+ dy;
+            }
+
+            var cellday = y+"-"+m+"-"+dy;
+            console.log(cellday + "  "+ date);
+            if (date == cellday) {
+                var eventText = document.createTextNode( name + "Time: " + time);
+                console.log(table.rows[w].cells[d].appendChild(eventText));
+            }
+        }
+    }
+
 
 }

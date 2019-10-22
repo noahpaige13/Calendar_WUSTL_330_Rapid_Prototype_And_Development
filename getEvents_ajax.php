@@ -10,18 +10,13 @@ if(!$stmt){
 $stmt->bind_param('s', $username);
 $username = $_SESSION['username'];
 $stmt->execute();
-$stmt->bind_result($event_id, $name, $date, $time);
+$result = $stmt->get_result();
 
 $output = array();
-while($stmt->fetch()){
-    // echo "<li>$name: $date + $time";
-    $input = array($name, $date, $time);
-    array_push($output, $input);
-        // "event" => $name,
-        // "date" => $date,
-        // "time" => $time
-   
-    
+$i = 0;
+while($row = $result->fetch_assoc()){
+    $output[$i] = $row;
+    $i++;
 }
 echo json_encode($output);
 $stmt->close();

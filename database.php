@@ -1,5 +1,3 @@
-<!-- code from cse330 wiki page -->
-
 <?php
 // Content of database.php
 

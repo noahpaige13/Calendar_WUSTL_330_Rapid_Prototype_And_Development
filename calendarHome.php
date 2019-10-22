@@ -28,11 +28,11 @@
         <button style="margin: 0px 8px;width:90%" id="newuser_btn">Create Account</button>
 
     </div>
-    <script type="text/javascript" src="ajax.js"></script> <!-- load the JavaScript file -->
 
 </div>
 <div id="calendar">
-    <div id="add_event"><button style="margin: 0px 8px;width:20%" id="add_event_btn" >Add Event</button></div>
+    <div id="add_event"><button style="margin: 0px 8px;width:20%" id="addevent_btn" >Add Event</button></div>
+    <div style="display:none" id="popup">hi</div>
     <div id="add">
         Log In or Register to edit your calendar!
     </div>
@@ -59,7 +59,8 @@
         <button style="margin: 0px 8px;width:40%" id="next_month" >Next</button>
     </div>
     <br/>
-    
+    <script type="text/javascript" src="ajax.js"></script> <!-- load the JavaScript file -->
+
 </div>
 
 <script>
