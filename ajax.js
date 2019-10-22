@@ -60,16 +60,20 @@ document.getElementById("addevent_btn").addEventListener("click", addEventAjax, 
 
 function getEvents(){
     fetch("getEvents_ajax.php")
-    .then(res => res.text())
+    // .then(response => response.text())
     .then(function(r) {
-        console.log(Array.from(r));
+        var user_events = [];
+        for (var i in r){
+            user_events.push(i,r[i]);
+        }
+        document.getElementById("add").innerHTML = user_events;
+        // console.log(Array.from(r));
         // r => JSON.stringify(r);
 
         // var data = JSON.parse(r);
         // console.log('Success:', r);
         // var data = JSON.parse(text);
         
-        document.getElementById("add").innerHTML = r;
 })
     .catch(error => console.error('Error:', error))
 
