@@ -38,26 +38,28 @@
     </div>
     <div id="c">
         <h3 id="monthAndYear"></h3>
-        <table id="calendar_heading">
+        <table align="center" width="700" id="calendar_heading">
             <thead >
             <tr>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
+                <th width="14.2857%">Sun</th>
+                <th width="14.2857%">Mon</th>
+                <th width="14.2857%">Tue</th>
+                <th width="14.2857%">Wed</th>
+                <th width="14.2857%">Thu</th>
+                <th width="14.2857%">Fri</th>
+                <th width="14.2857%">Sat</th>
             </tr>
             </thead>
             <tbody id="calendar_body"></tbody>
         </table>
-        <div>
-            <button style="margin: 0px 8px;width:40%" id="previous_month" >Previous</button>
-            <button style="margin: 0px 8px;width:40%" id="next_month" >Next</button>
-        </div>
-        <br/>
     </div>
+    <br>
+    <div style="margin-left: 10px;">
+        <button style="margin: 0px 8px;width:40%" id="previous_month" >Previous</button>
+        <button style="margin: 0px 8px;width:40%" id="next_month" >Next</button>
+    </div>
+    <br/>
+    
 </div>
 
 <script>
