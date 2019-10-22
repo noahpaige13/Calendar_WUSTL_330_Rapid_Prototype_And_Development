@@ -31,11 +31,37 @@
 
 </div>
 <div id="calendar">
-    <div id="add_event"><button style="margin: 0px 8px;width:20%" id="addevent_btn" >Add Event</button></div>
-    <div style="display:none" id="popup">hi</div>
-    <div id="add">
-        Log In or Register to edit your calendar!
+    <!-- Trigger/Open The Modal -->
+    <div id="add_event"><button style="margin: 0px 8px;width:20%; float: right" id="addevent_btn" >Add Event</button></div>
+
+    <!-- The Modal -->
+    <div id="myModal" style="display:none" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="container">
+                <label for="event_name"><b>Event Name</b></label>
+                <input type="text" placeholder="Enter Event Name" name="event_name" required>
+
+                <label for="psw"><b>Event Date</b></label>
+                <input type="date" placeholder=" " name="event_date" required>
+                
+                <label for="psw"><b>Event Time</b></label>
+                <input type="time" placeholder="Enter Password" name="event_time" required>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+            <button id="cancel_btn" >Cancel</button>
+            <button style="float:right" id="create_event">Add</button>
+            </div>
+        </div>
+
     </div>
+    <!-- <div style="display:none" id="popup">hi</div> -->
+    <!-- <div id="add">
+        Log In or Register to edit your calendar!
+    </div> -->
     <div id="c">
         <h3 id="monthAndYear"></h3>
         <table align="center" width="700" id="calendar_heading">
@@ -84,7 +110,6 @@ document.getElementById('previous_month').addEventListener('click',function(even
 	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML    
 }, false);
 
-
 function updateCalendar(){
 	var weeks = currentMonth.getWeeks();
     var table = document.getElementById('calendar_body');
@@ -94,15 +119,13 @@ function updateCalendar(){
 
     for(var w in weeks){
 		var days = weeks[w].getDates();
-		// days contains normal JavaScript Date objects.
-		
+        // days contains normal JavaScript Date objects.
+        
         var row = document.createElement("tr"); 
 
 		for(var d in days){
 			// You can see console.log() output in your JavaScript debugging tool, like Firebug,
             // WebWit Inspector, or Dragonfly.
-            
-            console.log(days[d].toISOString());
             var cell = row.insertCell(d);
             var cellText = document.createTextNode(days[d].getDate());
             cell.appendChild(cellText);
@@ -114,7 +137,8 @@ function updateCalendar(){
     while (document.getElementById('monthAndYear').hasChildNodes()){
         document.getElementById('monthAndYear').removeChild(document.getElementById('monthAndYear').firstChild);
     }
-    var name = document.createTextNode("Date: " + (currentMonth.month + 1) + ' / ' + (currentMonth.year));
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var name = document.createTextNode(monthNames[currentMonth.month] + ' ' + (currentMonth.year));
     document.getElementById('monthAndYear').appendChild(name);
 }
 
