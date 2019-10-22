@@ -89,6 +89,9 @@ function showEvents(name, date, time){
 
             var y = days[d].getFullYear();
             var m = days[d].getMonth() + 1;
+            if (m <10) {
+                m = '0'+ m;
+            }
             var dy = days[d].getDate();
             if (dy <10) {
                 dy = '0'+ dy;
@@ -97,11 +100,15 @@ function showEvents(name, date, time){
             var cellday = y+"-"+m+"-"+dy;
             console.log(cellday + "  "+ date);
             if (date == cellday) {
-                var eventText = document.createTextNode( name + "Time: " + time);
+                var eventText = document.createTextNode( "<input id = 'event_edit' type = 'button' value =  name + 'Time: ' + time />");
                 console.log(table.rows[w].cells[d].appendChild(eventText));
             }
         }
     }
 
+document.getElementById('event_edit').addEventListener('click', eventEdit, false);
 
+function eventEdit(){
+    
+}
 }
