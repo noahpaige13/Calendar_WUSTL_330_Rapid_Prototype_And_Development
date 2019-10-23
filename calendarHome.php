@@ -43,7 +43,7 @@
 <div id="calendar">
     <!-- Trigger/Open The Modal -->
     <div style="display:none" id="add_event"><button style="margin: 0px 8px; width:13%; float: right" id="addevent_btn" >Add Event</button></div>
-    <div id = 'tog'> 
+    <div style="display:none" id = 'tog'> 
         <input name = "checkbox" type ='checkbox' id = 'toggle' >
         Click To Show Important Priority Events Only!
 
@@ -212,86 +212,9 @@ function updateCalendar(){
     document.getElementById('monthAndYear').appendChild(name);
 }
 
-
 // Update Calendar as soon as Page Initially Loads
 document.addEventListener("DOMContentLoaded", updateCalendar, false);
 document.addEventListener("DOMContentLoaded", checkSession, false);
-
-// document.addEventListener("DOMContentLoaded", updateCalendar, false);
-
-
-// // GetEVENTS
-// function getEvents(){
-//     const data = {'token': token};
-
-//     fetch("getEvents_ajax.php", {
-//         method: 'POST',
-//         body: JSON.stringify(data),
-//         headers: { 'content-type': 'application/json' }
-//     })
-//     .then(response => response.text())
-//     .then((text) => {
-//         let json_data = JSON.parse(text);
-
-//         let weeks = currentMonth.getWeeks();
-//         let table = document.getElementById('calendar_body');
-//         for(let w in weeks){
-// 		    let days = weeks[w].getDates();
-        
-// 		    for(let d in days){
-//                 let child = table.rows[w].cells[d];
-//                 while (child.childNodes.length > 1){
-//                     table.rows[w].cells[d].removeChild(child.childNodes[1]);
-//                 }
-//             }
-//         }
-
-//         for (let i = 0 ; i < json_data.length; i++){
-//             let name = json_data[i].name;
-//             let date = json_data[i].date;
-//             let time = json_data[i].time;
-//             let id = json_data[i].event_id;
-//             showEvents(name, date, time, id);
-//         }
-
-//     })
-//     .catch(error => console.error('Error:', error))
-
-// }
-
-// // LOGIN
-// function login(user){
-//     console.log("askjnd")
-//     document.getElementById("logout").style.display = "block";
-//     document.getElementById("login").style.display = "none";
-//     document.getElementById("newuser").style.display = "none";
-//     document.getElementById("add_event").style.display = "block";
-//     document.getElementById("deleteaccount").style.display = "block";
-//     document.getElementById("user").innerHTML = user;
-// }
-
-// LOGOUT
-// function logout(){
-//     document.getElementById("logout").style.display = "none";
-//     document.getElementById("login").style.display = "block";
-//     document.getElementById("newuser").style.display = "block";
-//     document.getElementById("add_event").style.display = "none";
-//     document.getElementById("deleteaccount").style.display = "none";
-//     document.getElementById("username").value = '';
-//     document.getElementById("password").value = '';
-//     document.getElementById("new_username").value = '';
-//     document.getElementById("new_password").value = '';
-
-//     fetch("logout.php")
-//     .then(res => updateCalendar())
-//     .catch(error => console.error('Error:', error))
-
-// }
-
-
-
-
-
 
 </script>
 

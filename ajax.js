@@ -362,6 +362,7 @@ function login(user){
     document.getElementById("login").style.display = "none";
     document.getElementById("newuser").style.display = "none";
     document.getElementById("add_event").style.display = "block";
+    document.getElementById("tog").style.display = "block";
     document.getElementById("deleteaccount").style.display = "block";
     document.getElementById("user").innerHTML = user;
 }
@@ -371,6 +372,7 @@ function logout(){
     document.getElementById("login").style.display = "block";
     document.getElementById("newuser").style.display = "block";
     document.getElementById("add_event").style.display = "none";
+    document.getElementById("tog").style.display = "none";
     document.getElementById("deleteaccount").style.display = "none";
     document.getElementById("username").value = '';
     document.getElementById("password").value = '';

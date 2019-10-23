@@ -50,8 +50,8 @@ function Week(initial_d) {
 	};
 	
 	this.getDates = function () {
-		var dates = [];
-		for(var i=0; i<7; i++){
+		let dates = [];
+		for(let i=0; i<7; i++){
 			dates.push(this.sunday.deltaDays(i));
 		}
 		return dates;
@@ -93,11 +93,11 @@ function Month(year, month) {
 	};
 	
 	this.getWeeks = function () {
-		var firstDay = this.getDateObject(1);
-		var lastDay = this.nextMonth().getDateObject(0);
+		let firstDay = this.getDateObject(1);
+		let lastDay = this.nextMonth().getDateObject(0);
 		
-		var weeks = [];
-		var currweek = new Week(firstDay);
+		let weeks = [];
+		let currweek = new Week(firstDay);
 		weeks.push(currweek);
 		while(!currweek.contains(lastDay)){
 			currweek = currweek.nextWeek();
