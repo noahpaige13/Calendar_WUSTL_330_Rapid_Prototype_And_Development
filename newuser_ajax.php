@@ -26,18 +26,22 @@ $pass = htmlentities($json_obj['password']);
 $hashed = password_hash($pass, PASSWORD_BCRYPT);
 $hashed = substr( $hashed, 0, 60 );
 
-$stmt->execute();
-$stmt->close();
-
-session_start();
-$_SESSION['username'] = $username;
-
-$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); 
-
-echo json_encode(array(
-    "success" => true
-));
+if(!$stmt->execute()){
+    $stmt->close();
+    echo json_encode(array(
+		"success" => false
+	));
+}
+else{
+    $stmt->close();
+	ini_set("session.cookie_httponly", 1);
+    session_start();
+	$_SESSION['username'] = $username;
+	$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); 
+	echo json_encode(array(
+		"success" => true,
+		"token" => $_SESSION['token']
+	));
+}
 exit;
-
-	
 ?>

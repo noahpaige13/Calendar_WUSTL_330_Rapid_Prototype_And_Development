@@ -1,8 +1,17 @@
 <?php 
+ini_set("session.cookie_httponly", 1);
 session_start();
 require 'database.php';
 // select all public stories in database
-$stmt = $mysqli->prepare("select event_id, name, date, time from events where user=?");
+
+// $token = htmlentities($json_obj['token']);
+
+// //test CSRF token validity
+// if(!hash_equals($_SESSION['token'], $token)){
+// 	die("Request forgery detected");
+// }
+
+$stmt = $mysqli->prepare("select event_id, name, date, time, important from events where user=?");
 if(!$stmt){
     printf("Query Prep Failed: %s\n", $mysqli->error);
     exit;

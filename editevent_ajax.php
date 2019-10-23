@@ -8,27 +8,35 @@ header("Content-Type: application/json"); // Since we are sending a JSON respons
 $json_str = file_get_contents('php://input');
 //This will store the data into an associative array
 $json_obj = json_decode($json_str, true);
+ini_set("session.cookie_httponly", 1);
 session_start();
 
-//test CSRF token validity
-// if(!hash_equals($_SESSION['token'], $_POST['token'])){
-// 	die("Request forgery detected");
-// }
+$token = htmlentities($json_obj['token']);
 
-$stmt = $mysqli->prepare("UPDATE events set name=?, date=?, time=? where story_id=?");
+//test CSRF token validity
+if(!hash_equals($_SESSION['token'], $token)){
+	die("Request forgery detected");
+}
+
+$stmt = $mysqli->prepare("UPDATE events set name=?, date=?, time=?, important=? where event_id=?");
 if(!$stmt){
 	printf("Query Prep Failed: %s\n", $mysqli->error);
 	exit;
 }
 
 // Bind the parameter
-$stmt->bind_param('sssi', $name, $date, $time, $story_id);
+$stmt->bind_param('sssii', $n, $d, $t, $p, $i);
 
-// $story_id = $_SESSION['story_id'];
 $n = htmlentities($json_obj['name']);
 $d = htmlentities($json_obj['date']);
 $t = htmlentities($json_obj['time']);
-
+$i = htmlentities($json_obj['id']);
+if (htmlentities($json_obj['priority']) == "Not1"){
+	$p = 0;
+}
+else{
+	$p = 1;
+}
 $stmt->execute();
 
 $stmt->close();

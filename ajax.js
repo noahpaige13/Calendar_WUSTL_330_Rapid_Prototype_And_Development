@@ -1,10 +1,39 @@
 // code based off of cse330 wiki page
 // ajax.js
 let token = '';
+
+function checkSession(event) {
+    // const username = document.getElementById("username").value; // Get the username from the form
+    // const password = document.getElementById("password").value; // Get the password from the form
+
+    // Make a URL-encoded string for passing POST data:
+    const data = {'token': token};
+
+    fetch("checkSession.php", {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'content-type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success){
+                token = res.token
+                
+                getEvents()
+                login(res.username)
+            }
+            else{
+                console.log("refresh not li")
+                
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
 function loginAjax(event) {
     const username = document.getElementById("username").value; // Get the username from the form
     const password = document.getElementById("password").value; // Get the password from the form
-    
+
     // Make a URL-encoded string for passing POST data:
     const data = { 'username': username, 'password': password };
 
@@ -15,47 +44,61 @@ function loginAjax(event) {
         })
         .then(res => res.json())
         .then(res => {
-            console.log(res)
             token = res.token
             if (res.success){
                 getEvents()
                 login(username)
             }
             else{
-                alert("User doesn't exist");
+                alert("Incorrect Username or Password");
             }
         })
         .catch(error => console.error('Error:', error))
+    document.getElementById("username").value = '';
+    document.getElementById("password").value = '';
+
 }
 
 function newUserAjax(event) {
-    var user = document.getElementById("new_username").value; // Get the username from the form
-    var pass = document.getElementById("new_password").value; // Get the password from the form
-    // Make a URL-encoded string for passing POST data:
-    const data = {'username': user,'password': pass};
+    updateCalendar();
+    let user = document.getElementById("new_username").value; // Get the username from the form
+    let pass = document.getElementById("new_password").value; // Get the password from the form
 
-    fetch("newuser_ajax.php", {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'content-type': 'application/json' }
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            token = res.token
-        })
-        .then(res => login(user))
-        .catch(error => console.error('Error:', error))
+    if (user == '' || pass == ''){
+        alert("Username or password blank!");
+    }
+    else{
+        // Make a URL-encoded string for passing POST data:
+        const data = {'username': user,'password': pass};
+
+        fetch("newuser_ajax.php", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'content-type': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(res => {
+                token = res.token
+                if (res.success){
+                    login(user)
+                }
+                else{
+                    alert("Username already taken!");
+                }
+            })
+            .catch(error => console.error('Error:', error))
+    }
+    document.getElementById("new_username").value = '';
+    document.getElementById("new_password").value = '';
 }
 
 function addEventAjax(event) {
-    var name = document.getElementById("event_name").value; // Get the username from the form
-    var date = document.getElementById("event_date").value; // Get the password from the form
-    var time = document.getElementById("event_time").value; // Get the password from the form
-    
+    let name = document.getElementById("event_name").value; // Get the username from the form
+    let date = document.getElementById("event_date").value; // Get the password from the form
+    let time = document.getElementById("event_time").value; // Get the password from the form
+    let priority = document.getElementById("priority").value;
     // Make a URL-encoded string for passing POST data:
-    const data = {'name': name,'date': date, 'time':time+':00'};
-    console.log(data)
+    const data = {'name': name,'date': date, 'time':time+':00', 'priority':priority, 'token': token};
     fetch("addevent_ajax.php", {
             method: 'POST',
             body: JSON.stringify(data),
@@ -66,41 +109,92 @@ function addEventAjax(event) {
         .catch(error => console.error('Error:', error))
 }
 
+function shareEvent(event) {
+    let name = document.getElementById("change_name").value; // Get the username from the form
+    let date = document.getElementById("change_date").value; // Get the password from the form
+    let time = document.getElementById("change_time").value; // Get the password from the form
+    let u = document.getElementById("share_user").value;
+    let users = u.replace(" ","").split(",")
+    // Make a URL-encoded string for passing POST data:
+    let i;
+    for (i = 0; i < users.length; i++) {
+        const data = {'name': name,'date': date, 'time':time, 'users':users[i], 'token': token};
+        console.log(data);
+    
+        fetch("shareEvent_ajax.php", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'content-type': 'application/json' }
+            })
+            .then(modal1.style.display = "none")
+            .catch(error => console.error('Error:', error))
+    }
+}
+
 function editEventAjax(event) {
-    var name = document.getElementById("change_name").value; // Get the username from the form
-    var date = document.getElementById("change_date").value; // Get the password from the form
-    var time = document.getElementById("change_time").value; // Get the password from the form
+    let name = document.getElementById("change_name").value; // Get the username from the form
+    let date = document.getElementById("change_date").value; // Get the password from the form
+    let time = document.getElementById("change_time").value; // Get the password from the form
+    let priority = document.getElementById("priority1").value;
 
     // Make a URL-encoded string for passing POST data:
-    const data = {'name': name,'date': date, 'time':time};
-
+    const data = {'name': name,'date': date, 'time':time, 'id': locate, 'priority':priority, 'token': token};
+    console.log(priority)
     fetch("editevent_ajax.php", {
             method: 'POST',
             body: JSON.stringify(data),
             headers: { 'content-type': 'application/json' }
         })
         .then(res => getEvents())
-        .then(modal.style.display = "none")
+        .then(modal1.style.display = "none")
         .catch(error => console.error('Error:', error))
 }
 
 function delEventAjax(event) {
     // Make a URL-encoded string for passing POST data:
-    fetch("delevent_ajax.php")
+    const data = {'id': locate, 'token': token};
+
+    fetch("delevent_ajax.php", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json' }
+        })
         .then(res => getEvents())
-        .then(modal.style.display = "none")
+        .then(modal1.style.display = "none")
+        .catch(error => console.error('Error:', error))
+}
+
+function delAccountAjax(event) {
+    // Make a URL-encoded string for passing POST data:
+    const data = {'token': token};
+    console.log(data);
+    fetch("deleteAccount.php", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json' }
+        })
+        .then(res => logout())
         .catch(error => console.error('Error:', error))
 }
 
 //code based from W3 Schools
 // EDIT MODAL
-var modal1 = document.getElementById("editModal");
-
+let modal1 = document.getElementById("editModal");
+let locate = '';
 // Get the <span> element that closes the modal
-var span1 = document.getElementsByClassName("close1")[0];
+let span1 = document.getElementsByClassName("close1")[0];
 
 function openModal1(event) {
     modal1.style.display = "block";
+    locate = this.id;
+    info = document.getElementById(this.id).getAttribute('class');
+    let s = info.split("/");
+    let ename = s[0];
+    let edate = s[1];
+    let etime = s[2];
+    document.getElementById("change_name").value = ename;
+    document.getElementById("change_date").value = edate;
+    document.getElementById("change_time").value = etime;
 }
 
 function closeModal1(event) {
@@ -116,10 +210,10 @@ window.onclick = function(event) {
 
 // ADD MODAL
 // Get the modal
-var modal = document.getElementById("myModal");
+let modal = document.getElementById("myModal");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
 function openModal(event) {
@@ -144,32 +238,31 @@ window.onclick = function(event) {
 
 //separate functions
 function getEvents(){
-    console.log("getEvents ran")
-    fetch("getEvents_ajax.php")
+    const data = {'token': token};
+
+    fetch("getEvents_ajax.php", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json' }
+    })
     .then(response => response.text())
     .then((text) => {
-        var json_data = JSON.parse(text);
+        let json_data = JSON.parse(text);
 
-        var weeks = currentMonth.getWeeks();
-        var table = document.getElementById('calendar_body');
-        for(var w in weeks){
-		    var days = weeks[w].getDates();
+        let weeks = currentMonth.getWeeks();
+        let table = document.getElementById('calendar_body');
+        for(let w in weeks){
+		    let days = weeks[w].getDates();
         
-		    for(var d in days){
-                // console.log("table", table.weeks)
-                // console.log("w", w, "d", d)
-                var child = table.rows[w].cells[d];
-                // console.log(child);
-                console.log(child.childNodes.length > 1)
+		    for(let d in days){
+                let child = table.rows[w].cells[d];
                 while (child.childNodes.length > 1){
-                    
-                    console.log(table.rows[w].cells[d].removeChild(child.childNodes[1]));
-
+                    table.rows[w].cells[d].removeChild(child.childNodes[1]);
                 }
             }
         }
 
-        for (var i = 0 ; i < json_data.length; i++){
+        for (let i = 0 ; i < json_data.length; i++){
             let name = json_data[i].name;
             let date = json_data[i].date;
             let time = json_data[i].time;
@@ -182,54 +275,94 @@ function getEvents(){
 
 }
 
-function showEvents(name, date, time, id){
-	var weeks = currentMonth.getWeeks();
-    var table = document.getElementById('calendar_body');
+function getImpEvents(){
+    const data = {'token': token};
 
+    fetch("getEvents_ajax.php", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json' }
+    })
+    .then(response => response.text())
+    .then((text) => {
+        let json_data = JSON.parse(text);
 
-    for(var w in weeks){
-		var days = weeks[w].getDates();
+        let weeks = currentMonth.getWeeks();
+        let table = document.getElementById('calendar_body');
+        for(let w in weeks){
+		    let days = weeks[w].getDates();
         
-		for(var d in days){
+		    for(let d in days){
+                let child = table.rows[w].cells[d];
+                while (child.childNodes.length > 1){
+                    table.rows[w].cells[d].removeChild(child.childNodes[1]);
+                }
+            }
+        }
 
-            var y = days[d].getFullYear();
-            var m = days[d].getMonth() + 1;
+        for (let i = 0 ; i < json_data.length; i++){
+            let name = json_data[i].name;
+            let date = json_data[i].date;
+            let time = json_data[i].time;
+            let id = json_data[i].event_id;
+            let imp = json_data[i].important;
+            console.log(imp)
+            if ( imp == 1){
+                showEvents(name, date, time, id);
+            }
+            
+        }
+
+    })
+    .catch(error => console.error('Error:', error))
+
+}
+
+function showEvents(name, date, time, id){
+	let weeks = currentMonth.getWeeks();
+    let table = document.getElementById('calendar_body');
+
+
+    for(let w in weeks){
+		let days = weeks[w].getDates();
+        
+		for(let d in days){
+
+            let y = days[d].getFullYear();
+            let m = days[d].getMonth() + 1;
             if (m <10) {
                 m = '0'+ m;
             }
-            var dy = days[d].getDate();
+            let dy = days[d].getDate();
             if (dy <10) {
                 dy = '0'+ dy;
             }
 
-            var cellday = y+"-"+m+"-"+dy;
+            let cellday = y+"-"+m+"-"+dy;
             if (date == cellday) {
-                // var l = document.table.rows[w].cells[d].childNodes.length;
-                // for (var i in l) {
-                //     if ( name + ' Time: '+ time == )
-                // }
-
-
-                var button = document.createElement('input');
+                let button = document.createElement('input');
                 button.setAttribute('type','button');
-                var txt = 'event_editbtn' + id;
-                button.setAttribute('id', txt);
+                button.setAttribute('id', id);
                 button.setAttribute('value', name + ' Time: '+ time);
+                button.setAttribute('class', name + '/' + date + '/' + time);
                 button.style.borderColor = "#233567";
-                // table.rows[w].cells[d].removeChild(table.rows[w].cells[d].childNodes[1]);
+                button.style.textAlign = "center";
+                // button.style.backgroundColor = "#233567";
+
                 table.rows[w].cells[d].appendChild(button);
-                document.getElementById(txt).addEventListener('click', openModal1, false);
+                document.getElementById(id).addEventListener('click', openModal1, false);
             }
         }
     }
 }
 
-
 function login(user){
+    console.log("askjnd")
     document.getElementById("logout").style.display = "block";
     document.getElementById("login").style.display = "none";
     document.getElementById("newuser").style.display = "none";
     document.getElementById("add_event").style.display = "block";
+    document.getElementById("deleteaccount").style.display = "block";
     document.getElementById("user").innerHTML = user;
 }
 
@@ -238,8 +371,11 @@ function logout(){
     document.getElementById("login").style.display = "block";
     document.getElementById("newuser").style.display = "block";
     document.getElementById("add_event").style.display = "none";
+    document.getElementById("deleteaccount").style.display = "none";
     document.getElementById("username").value = '';
     document.getElementById("password").value = '';
+    document.getElementById("new_username").value = '';
+    document.getElementById("new_password").value = '';
 
     fetch("logout.php")
     .then(res => updateCalendar())
@@ -261,6 +397,18 @@ document.getElementById("cancel_btn1").addEventListener("click", closeModal1, fa
 document.getElementById("create_event").addEventListener("click", addEventAjax, false);
 document.getElementById("edit_event").addEventListener("click", editEventAjax, false); // Bind the AJAX call to button click
 document.getElementById("del_event").addEventListener("click", delEventAjax, false); // Bind the AJAX call to button click
+document.getElementById("delete_btn").addEventListener("click", delAccountAjax, false); // Bind the AJAX call to button click
+document.getElementById('share_btn').addEventListener("click", shareEvent, false);
+let checkbox = document.querySelectorAll("input[name='checkbox']");
+document.getElementById('toggle').addEventListener("click", function() {
+    if ((this.checked) == 1)  {
+        console.log ('checked');
+        getImpEvents();
+    } else {
+        console.log ('not checked');
+        getEvents();
+    }
+});
 
 
 

@@ -8,26 +8,35 @@ header("Content-Type: application/json"); // Since we are sending a JSON respons
 $json_str = file_get_contents('php://input');
 //This will store the data into an associative array
 $json_obj = json_decode($json_str, true);
+ini_set("session.cookie_httponly", 1);
 session_start();
 
+$token = htmlentities($json_obj['token']);
 //test CSRF token validity
-// if(!hash_equals($_SESSION['token'], $_POST['token'])){
-// 	die("Request forgery detected");
-// }
+if(!hash_equals($_SESSION['token'], $token)){
+	die("Request forgery detected");
+}
 
 // Use a prepared statement
-$stmt = $mysqli->prepare("INSERT into events (user, name, date, time) VALUES (?, ?, ?, ?)");
+$stmt = $mysqli->prepare("INSERT into events (user, name, date, time, important) VALUES (?, ?, ?, ?, ?)");
 if(!$stmt){
 	printf("Query Prep Failed: %s\n", $mysqli->error);
 	exit;
 }
 // Bind the parameter
-$stmt->bind_param('ssss', $username, $n, $d, $t);
+$stmt->bind_param('ssssi', $username, $n, $d, $t, $i);
 $username = $_SESSION['username'];
 
 $n = htmlentities($json_obj['name']);
 $d = htmlentities($json_obj['date']);
 $t = htmlentities($json_obj['time']);
+if (htmlentities($json_obj['priority']) == "Imp"){
+	$i = 1;
+}
+else{
+	$i =0;
+}
+
 
 $stmt->execute();
 

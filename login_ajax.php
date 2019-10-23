@@ -27,10 +27,10 @@ $pwd_guess = htmlentities($json_obj['password']);
 
 // Compare the submitted password to the actual password hash
 if($cnt == 1 && password_verify($pwd_guess, $pwd_hash)){
-    session_start();
+	ini_set("session.cookie_httponly", 1);
+	session_start();
 	$_SESSION['username'] = $username;
 	$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); 
-
 	echo json_encode(array(
 		"success" => true,
 		"token" => $_SESSION['token']

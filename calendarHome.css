@@ -32,10 +32,8 @@ div#logout{
     padding: 10px;
 }
 div#deleteaccount{
-    float:left;
-    margin: 0;
-    border-color: white;
-    padding: 10px;
+  border-color: white;
+  padding: 10px;
 }
 h1{
 	color: #233567;
@@ -90,11 +88,15 @@ table, th, td {
     border-width: 3px;
     border-collapse: collapse;
     table-layout:fixed;
-    overflow: auto; 
-    overflow-y: auto;
+    /* overflow: auto;  */
+    /* overflow-y: auto; */
 }
-th, td {
+th{
     padding: 15px;
+}
+td{
+  padding: 0px;
+  overflow: hidden;
 }
 div#c{
     text-align: center;

@@ -6,12 +6,19 @@
 <body>
     <h1>Welcome!</h1>
 <br>
+
 <div id="options">
     <div style="display:none;" id="logout">
 
-    <!-- Log Out button -->
-    <h3>Logged in as: <div id="user"></div></h3>
-    <button style="margin: 0px 8px;width:90%" id="logout_btn">Log Out</button>
+        <!-- Log Out button -->
+        <h3>Logged in as: <div id="user"></div></h3>
+        <button style="margin: 0px 8px;width:90%" id="logout_btn">Log Out</button>
+
+    </div>
+    <div style="display:none;" id="deleteaccount">
+
+        <!-- Delete Account button -->
+        <button style="margin: 0px 8px;width:90%" id="delete_btn">Delete Account</button>
 
     </div>
     <div id="login">
@@ -36,6 +43,11 @@
 <div id="calendar">
     <!-- Trigger/Open The Modal -->
     <div style="display:none" id="add_event"><button style="margin: 0px 8px; width:13%; float: right" id="addevent_btn" >Add Event</button></div>
+    <div id = 'tog'> 
+        <input name = "checkbox" type ='checkbox' id = 'toggle' >
+        Click To Show Important Priority Events Only!
+
+    </div>
     <br>
     <!-- The Modal -->
     <div id="myModal" style="display:none" class="modal">
@@ -52,6 +64,12 @@
                 
                 <label for="psw"><b>Event Time: </b></label>
                 <input type="time" id = "event_time" name="event_time" required>
+
+                <h3>Priority</h3>
+                <select style="border-color: #fbc1bc; height: 30px;" id = "priority" name="priority">
+                    <option value="Imp">Important</option>
+                    <option value="Not">Normal</option>
+                </select>
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
@@ -74,6 +92,11 @@
                 <input id = "change_date" type="date" name="change_date">
                 <label for="psw"><b>Change Event Time: </b></label>
                 <input id = "change_time" type="time" name="change_time">
+                <h3>Priority</h3>
+                <select style="border-color: #fbc1bc; height: 30px;" id="priority1" name="priority1">
+                    <option value="Imp1">Important</option>
+                    <option value="Not1">Normal</option>
+                </select>
             </div>
             <div class="container">
                 <button id="cancel_btn1" >Cancel</button>
@@ -116,6 +139,7 @@
 </div>
 
 <script>
+    // getEvents();
 let timer = true;
 // "Calendar Math" Functions
 (function(){Date.prototype.deltaDays=function(c){return new Date(this.getFullYear(),this.getMonth(),this.getDate()+c)};Date.prototype.getSunday=function(){return this.deltaDays(-1*this.getDay())}})();
@@ -171,7 +195,9 @@ function updateCalendar(){
             let cell = row.insertCell(d);
             let cellText = document.createTextNode(days[d].getDate());
             let h = document.createElement("H4")
-            h.appendChild(cellText);                                   // Append the text to <h1>
+            h.appendChild(cellText);  
+            h.style.marginTop = "0px";
+            h.style.marginRight = "2px";
             cell.appendChild(h);
             row.appendChild(cell);
         }
@@ -186,8 +212,86 @@ function updateCalendar(){
     document.getElementById('monthAndYear').appendChild(name);
 }
 
+
 // Update Calendar as soon as Page Initially Loads
 document.addEventListener("DOMContentLoaded", updateCalendar, false);
+document.addEventListener("DOMContentLoaded", checkSession, false);
+
+// document.addEventListener("DOMContentLoaded", updateCalendar, false);
+
+
+// // GetEVENTS
+// function getEvents(){
+//     const data = {'token': token};
+
+//     fetch("getEvents_ajax.php", {
+//         method: 'POST',
+//         body: JSON.stringify(data),
+//         headers: { 'content-type': 'application/json' }
+//     })
+//     .then(response => response.text())
+//     .then((text) => {
+//         let json_data = JSON.parse(text);
+
+//         let weeks = currentMonth.getWeeks();
+//         let table = document.getElementById('calendar_body');
+//         for(let w in weeks){
+// 		    let days = weeks[w].getDates();
+        
+// 		    for(let d in days){
+//                 let child = table.rows[w].cells[d];
+//                 while (child.childNodes.length > 1){
+//                     table.rows[w].cells[d].removeChild(child.childNodes[1]);
+//                 }
+//             }
+//         }
+
+//         for (let i = 0 ; i < json_data.length; i++){
+//             let name = json_data[i].name;
+//             let date = json_data[i].date;
+//             let time = json_data[i].time;
+//             let id = json_data[i].event_id;
+//             showEvents(name, date, time, id);
+//         }
+
+//     })
+//     .catch(error => console.error('Error:', error))
+
+// }
+
+// // LOGIN
+// function login(user){
+//     console.log("askjnd")
+//     document.getElementById("logout").style.display = "block";
+//     document.getElementById("login").style.display = "none";
+//     document.getElementById("newuser").style.display = "none";
+//     document.getElementById("add_event").style.display = "block";
+//     document.getElementById("deleteaccount").style.display = "block";
+//     document.getElementById("user").innerHTML = user;
+// }
+
+// LOGOUT
+// function logout(){
+//     document.getElementById("logout").style.display = "none";
+//     document.getElementById("login").style.display = "block";
+//     document.getElementById("newuser").style.display = "block";
+//     document.getElementById("add_event").style.display = "none";
+//     document.getElementById("deleteaccount").style.display = "none";
+//     document.getElementById("username").value = '';
+//     document.getElementById("password").value = '';
+//     document.getElementById("new_username").value = '';
+//     document.getElementById("new_password").value = '';
+
+//     fetch("logout.php")
+//     .then(res => updateCalendar())
+//     .catch(error => console.error('Error:', error))
+
+// }
+
+
+
+
+
 
 </script>
 
