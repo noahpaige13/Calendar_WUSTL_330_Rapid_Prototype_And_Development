@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head><title>Calendar</title>
 <link rel="stylesheet" type="text/css" href="calendarHome.css" />
 </head>
@@ -11,7 +11,7 @@
     <div style="display:none;" id="logout">
 
         <!-- Log Out button -->
-        <h3>Logged in as: <div id="user"></div></h3>
+        <h3>Logged in as: </h3><div id="user"></div><br>
         <button style="margin: 0px 8px;width:90%" id="logout_btn">Log Out</button>
 
     </div>
@@ -59,10 +59,10 @@
                 <label for="event_name"><b>Event Name: </b></label>
                 <input style="width: 90%;" id = "event_name" type="text" placeholder="Enter Event Name" name="event_name" required>
                 <br><br>
-                <label for="psw"><b>Event Date: </b></label>
+                <label for="event_date"><b>Event Date: </b></label>
                 <input type="date" id = "event_date" name="event_date" required>
                 
-                <label for="psw"><b>Event Time: </b></label>
+                <label for="event_time"><b>Event Time: </b></label>
                 <input type="time" id = "event_time" name="event_time" required>
 
                 <h3>Priority</h3>
@@ -86,11 +86,11 @@
             <h3 style= "text-align: center">Event Options</h3>
             <div class="container">
                 <label for="event_name"><b>Change Event Name: </b></label>
-                <input style="width: 90%;"id = "change_name" type="text" placeholder="Change Event Name" name="change_name">
+                <input style="width: 90%;" id ="change_name" type="text" placeholder="Change Event Name" name="change_name">
                 <br><br>
-                <label for="psw"><b>Change Event Date: </b></label>
+                <label for="change_date"><b>Change Event Date: </b></label>
                 <input id = "change_date" type="date" name="change_date">
-                <label for="psw"><b>Change Event Time: </b></label>
+                <label for="change_time"><b>Change Event Time: </b></label>
                 <input id = "change_time" type="time" name="change_time">
                 <h3>Priority</h3>
                 <select style="border-color: #fbc1bc; height: 30px;" id="priority1" name="priority1">
@@ -104,7 +104,7 @@
                 <button style="float:right" id = 'del_event'> Delete Event </button>
             </div><div class="container" style="background-color:#f1f1f1"><br><br></div>
             <div class="container">
-                <label for="event_name"><b>Share Event With:</b></label>
+                <label for="share_user"><b>Share Event With:</b></label>
                 <input style="width:80%" id = "share_user" type="text" placeholder="Username" name="share_user">
                 <button id="share_btn" >Share</button>
             </div>
@@ -113,16 +113,16 @@
 
     <div id="c">
         <h2 id="monthAndYear"></h2>
-        <table align="center" width="900" height="500" id="calendar_heading">
+        <table id="calendar_heading">
             <thead >
             <tr>
-                <th style="font-size: 12pt; color: #233567; background-color: #ffdfdf;" width="14.2857%">Sun</th>
-                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%;">Mon</th>
-                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Tue</th>
-                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Wed</th>
-                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Thu</th>
-                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Fri</th>
-                <th style="font-size: 12pt;color: #233567;background-color: #ffdfdf;"width="14.2857%">Sat</th>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
             </tr>
             </thead>
             <tbody id="calendar_body"></tbody>
