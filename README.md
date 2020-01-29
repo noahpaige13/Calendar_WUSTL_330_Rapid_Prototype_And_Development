@@ -1,6 +1,7 @@
 # CSE330
-455539
-458011
+455539 | 458011
+
+Worked with Jennifer Lu
 
 Link to Calendar: http://ec2-18-221-130-56.us-east-2.compute.amazonaws.com/~jenniferlu/module5/calendarHome.php
 
